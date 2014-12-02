@@ -4,7 +4,7 @@
 src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js'>
  </script>
 </head>
-<body ng-app ng-controller = 'MyController' >
+<body ng-app='myApp' ng-controller = 'MyController' >
 <p>My test: {{test}}{{items.length}} </p>
 <button ng-click='do_it()'>Do it</button>
 <div ng-repeat = 'item in items'>
@@ -21,17 +21,18 @@ src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js'>
 	{name: 'b'}
  ];
 
-  //myModule = angular.module('myApp');
-	//myModule.controller('MyController', function($scope){
+  myModule = angular.module('myApp', []);
+	myModule.controller('MyController', function($scope){
 
 
-	function MyController($scope) {
+	//function MyController($scope) {
+
 			$scope.items= lls;
 			$scope.test = 'a';
 			$scope.do_it = function() {
 							$scope.items.push({'name':  new Date});
 	};
-	};
+	});
 </script>
 </body>
 </html>
