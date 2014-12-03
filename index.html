@@ -11,9 +11,13 @@ src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js'>
 				<span>{{item.name}}</span>
 </div>
 
-<ul ng-repeat = 'item in items'>
-				<li>{{item.name}}</li>
+<div ng-controller = 'OtherController'>
+	<button ng-click = 'do_it()'>Do it</button>
+	<button ng-click = 'toggleMenu()'>Toggle it</button>
+<ul ng-show = 'menuState' >
+				<li ng-repeat = 'item in items'>{{item.name}}</li>
 </ul>
+</div>
 
 <script>
  var lls = [
@@ -24,15 +28,22 @@ src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js'>
   myModule = angular.module('myApp', []);
 	myModule.controller('MyController', function($scope){
 
-
-	//function MyController($scope) {
-
 			$scope.items= lls;
 			$scope.test = 'a';
 			$scope.do_it = function() {
 							$scope.items.push({'name':  new Date});
 	};
 	});
+	myModule.controller('OtherController', function($scope){
+			$scope.menuState = false;
+			$scope.items = lls.slice(0);
+			$scope.do_it = function() {
+				$scope.items.splice(0,0,{'name': new Date});
+			};
+			$scope.toggleMenu = function() {
+				$scope.menuState = !$scope.menuState;
+			};
+									});
 </script>
 </body>
 </html>
