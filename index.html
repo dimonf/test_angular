@@ -1,5 +1,7 @@
 <html >
 <head>
+	<link rel="stylesheet" type="text/css" href="mystyle.css">
+
  <script
 src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js'>
  </script>
@@ -15,7 +17,8 @@ src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js'>
 	<button ng-click = 'do_it()'>Do it</button>
 	<button ng-click = 'toggleMenu()'>Toggle it</button>
 <ul ng-show = 'menuState' >
-				<li ng-repeat = 'item in items'>{{item.name}}</li>
+				<li ng-repeat = 'item in items' ng-click='selectItem($index)'
+				ng-class='{selected: $index==selectedRow}'>  {{item.name}}</li>
 </ul>
 </div>
 
@@ -35,6 +38,9 @@ src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js'>
 	};
 	});
 	myModule.controller('OtherController', function($scope){
+			$scope.selectItem = function(row_index){
+				$scope.selectedRow = row_index;
+			};
 			$scope.menuState = false;
 			$scope.items = lls.slice(0);
 			$scope.do_it = function() {
