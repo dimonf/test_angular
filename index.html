@@ -1,86 +1,13 @@
-<html >
+<html ng-app='genJournal'>
 <head>
 	<link rel="stylesheet" type="text/css" href="mystyle.css">
-
  <script
 src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js'>
  </script>
+ <script src='controllers.js'></script>
 </head>
 <body>
-	<div ng-app='myApp' ng-controller='OrderController'>
-		<button ng-click='add_item()'>Add</button>
-		<table>
-						<tr><th>Transaction date</th><th>Account</th><th>Currency</th><th>Amount</th><th>USD</th>
-							<tr ng-repeat='item in items' ng-click='row_click($index)' ng-class='{selected: $index==selected_row}'>
-										<td> {{item.date}}</td>
-										<td> {{item.account}}</td>
-										<td> {{item.curr}}</td>
-										<td> {{item.amount}}</td>
-										<td> {{item.usd}}</td>
-						</tr>
-		</table>
-		<div> Total:{{data.total}}</div>
-		<div> Discount:{{data.discount}}</div>
-		<div> Net payable:{{data.net_amount}}</div>
-	</div>
-
-	<script>
-			//generate sample data
-			function roundAmount(amount){
-					//get nicely formatted 2 digits after decimal point
-					return (Math.round(amount * 100) / 100);
-			};
-			function getR(max_val){
-					return Math.ceil(Math.random() * max_val);
-			};
-			function getR2(max_val){
-					//get random two-digits after decimal point number
-					return roundAmount(Math.random() * max_val);
-			};
-		
-			function get_item(){
-					return({
-							date: today, 
-							account: [getR(24),getR(9)].join('.'), 
-							curr: 'EUR', 
-							amount: getR2(100)
-					});
-			};
-
-			var today = new Date().toLocaleDateString();
-			var items = [];
-
-			for (var i = 0; i<=10; i++){
-						items.push(get_item());
-			};
-			//
-			var rate_usd = 1.34;
-			var data = {};
-
-			var myModule = angular.module('myApp', []);
-			myModule.controller('OrderController', function($scope) {
-					$scope.items= items;
-					$scope.data = data;
-					$scope.row_click = function(index){
-						$scope.selected_row = index;
-					};
-					$scope.add_item = function() {
-						$scope.items.push(get_item());
-					};
-					function CalculateTotals() {
-							var total = 0;
-							for (var i=0; i<$scope.items.length; i++){
-								//calculate amount in base currency
-								$scope.items[i].usd = roundAmount($scope.items[i].amount * rate_usd);
-								//
-								total += $scope.items[i].amount;
-							}
-							$scope.data.total = roundAmount(total);
-							$scope.data.discount = total > 100? 10: 0;
-							$scope.data.net_amount = $scope.data.total - $scope.data.discount;
-					};
-					$scope.$watch('items', CalculateTotals, true);
-			});
-	</script>
+<h1>General ledger</h1>
+<div ng-view></div>
 </body>
 </html>
