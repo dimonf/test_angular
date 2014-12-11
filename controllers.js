@@ -29,15 +29,11 @@ function DetailController($scope, Items, $routeParams) {
 GenJournal.factory('Items', function() {
 	//factory pattern: p.47
 	var items = {};
+	items.data = get_items();
 	items.query = function() {
-			var vals = [];
-			for (i=0; i<10; i++) {
-				var item = get_item();
-				item.id = i;
-				vals.push(item);
-			}
-			return(vals);
+			return items.data;
 	};
+
 	return items;
 	//
 	//generate sample data
@@ -52,10 +48,19 @@ GenJournal.factory('Items', function() {
 	//get random two-digits after decimal point number
 			return roundAmount(Math.random() * max_val);
 	};
+	
+	function get_items() {
+			var items = [];
+			for (i=0; i<10; i++) {
+					var today = new Date().toLocaleDateString();
+					var item = get_item(today);
+					item.id = i;
+					items.push(item);
+			}
+			return items;
+	}
 
-	var today = new Date().toLocaleDateString();
-
-	function get_item(){
+	function get_item(today){
 		return({
 				date: today, 
 				account: [getR(24),getR(9)].join('.'), 
